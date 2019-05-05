@@ -1,0 +1,6 @@
+{
+  "name": "jobName",
+  "sourceName": "sourceName",
+  "sinkName": "sinkName",
+  "sql": "insert into sink_name(word,num) select word,num from your_source_name"
+}

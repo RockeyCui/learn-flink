@@ -1,0 +1,8 @@
+{
+  "dataType": "string",
+  "hostName": "localhost",
+  "port": "9000",
+  "lineDelimiter": "\n",
+  "fieldDelimiter": ",",
+  "encoding": "UTF-8"
+}

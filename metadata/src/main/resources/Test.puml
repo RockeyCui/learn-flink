@@ -1,0 +1,97 @@
+@startuml
+
+class MdSaveServiceFactory{
+   -impl:Map<String, MdSaveService>
+
+   -{method} MdSaveServiceFactory()
+   +{method} MdSaveServiceFactory getInstance()
+   +{method} MdSaveService getService()
+   +{method} String getKey()
+   +{method} setKey(String key)
+}
+note left: 存储类工厂
+
+interface MdSaveService{
+
+}
+note left: 存储接口
+
+MdSaveServiceFactory o--> MdSaveService : 包含
+MdSaveService <|-- MdH2SaveServiceImpl
+note bottom: H2数据库存储实现
+MdSaveService <|-- MdHdfsSaveServiceImpl
+note bottom: HDFS存储实现
+
+class H2ConnFactory{
+    -dataSource:HikariDataSource
+    -hikariConfig:HikariConfig
+
+    -{method} MdSaveServiceFactory()
+}
+
+MdH2SaveServiceImpl o--> H2ConnFactory : 包含
+
+class MdH2SaveServiceImpl{
+
+}
+
+class CrrioSysJob{
+    -id:String
+    -name:String
+    -dataSource:String
+    -sql:String
+    -createUser:String
+    -createTime:Date
+    -updateTime:Date
+}
+
+class CrrioSysView{
+    -id:String
+    -name:String
+    -dataSource:String
+    -sql:String
+    -createUser:String
+    -createTime:Date
+    -updateTime:Date
+}
+
+class CrrioSysSink{
+    -id:String
+    -name:String
+    -type:String
+    -createUser:String
+    -createTime:Date
+    -updateTime:Date
+}
+
+class CrrioSysSource{
+    -id:String
+    -name:String
+    -type:String
+    -createUser:String
+    -createTime:Date
+    -updateTime:Date
+}
+
+class CrrioSysTabColumns{
+     -objId:String
+     -objType:String
+     -columnName:String
+     -dataType:String
+     -position:Integer
+}
+CrrioSysSink o--> CrrioSysTabColumns : 包含
+CrrioSysSource o--> CrrioSysTabColumns : 包含
+
+class CrrioSysTabProperties{
+     -objId:String
+     -objType:String
+     -propertiesName:String
+     -propertiesValue:String
+}
+CrrioSysSink o--> CrrioSysTabProperties : 包含
+CrrioSysSource o--> CrrioSysTabProperties : 包含
+CrrioSysJob o--> CrrioSysTabProperties : 包含
+
+
+@enduml
