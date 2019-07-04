@@ -53,6 +53,7 @@ public class SocketServer {
     }
 
     private static String getData(int i) {
-        return DATA.get(random.nextInt(DATA.size())) + (TIME + 1000 * i);
+        //random.nextInt(DATA.size())
+        return DATA.get(0) + (TIME + 1000 * i);
     }
 }
