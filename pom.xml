@@ -11,6 +11,8 @@
 
     <modules>
         <module>flink-demo</module>
+        <module>flink-gendata</module>
+        <module>flink-flume</module>
     </modules>
 
 

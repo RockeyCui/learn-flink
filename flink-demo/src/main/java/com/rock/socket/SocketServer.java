@@ -22,9 +22,8 @@ public class SocketServer {
 
     static {
         DATA.add("150,123,");
-        DATA.add("155,123,");
-        DATA.add("159,123,");
-        TIME = System.currentTimeMillis();
+        DATA.add("150,124,");
+        TIME = 1562730986000L;
     }
 
     public static void main(String[] args) {
@@ -42,7 +41,10 @@ public class SocketServer {
             OutputStream outputStream = socket.getOutputStream();
             for (int i = 0; i < 100; i++) {
                 Thread.sleep(1000);
-                String data = getData(i);
+                String data = DATA.get(0) + (TIME + 1000 * i);
+                if (i == 8) {
+                    data = DATA.get(1) + (TIME + 1000 * i);
+                }
                 System.out.println("send:" + data + "  " + DateTimeUtil.getTimestampToDate(Long.parseLong(data.split(",")[2])));
                 outputStream.write((data + "\n").getBytes(Charset.forName("UTF-8")));
                 outputStream.flush();
