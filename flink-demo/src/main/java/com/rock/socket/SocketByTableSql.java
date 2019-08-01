@@ -87,7 +87,7 @@ public class SocketByTableSql {
                 " having" +
                 " COUNT(1) >= 100";
 
-        Table table = tableEnv.sqlQuery(sql3);
+        Table table = tableEnv.sqlQuery(sql4);
 
         DataStream<Row> rowDataStream = tableEnv.toAppendStream(table, Row.class);
 
