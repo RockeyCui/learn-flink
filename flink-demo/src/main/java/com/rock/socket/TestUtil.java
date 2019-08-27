@@ -19,35 +19,15 @@ public class TestUtil {
      * 获取添加水印的 stream
      * 数据格式  f1,f2,...,timestamp
      *
-     * @param env          执行环境
+     * @param env            执行环境
      * @param sourceFunction 数据源
-     * @param types        每个数据的类型
+     * @param types          每个数据的类型
      * @return
      */
-    public static DataStream<Row> getStream(StreamExecutionEnvironment env, SourceFunction sourceFunction, TypeInformation[] types) {
+    public static DataStream<Row> getStream(StreamExecutionEnvironment env, SourceFunction sourceFunction, MapFunction<String, Row> mapFunction, TypeInformation[] types) {
         DataStreamSource<String> stringDataStreamSource = env.addSource(sourceFunction);
 
-        DataStream<Row> map = stringDataStreamSource.map(new MapFunction<String, Row>() {
-            @Override
-            public Row map(String s) {
-                String[] split = s.split(",");
-                Row row = new Row(split.length);
-                for (int i = 0; i < split.length; i++) {
-                    Object value = split[i];
-                    if (types[i].equals(Types.STRING)) {
-                        value = split[i];
-                    }
-                    if (types[i].equals(Types.LONG)) {
-                        value = Long.valueOf(split[i]);
-                    }
-                    if (types[i].equals(Types.INT)) {
-                        value = Integer.valueOf(split[i]);
-                    }
-                    row.setField(i, value);
-                }
-                return row;
-            }
-        }).returns(new RowTypeInfo(types));
+        DataStream<Row> map = stringDataStreamSource.map(mapFunction).returns(new RowTypeInfo(types));
 
         // 事件时间
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);

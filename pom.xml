@@ -13,6 +13,7 @@
         <module>flink-demo</module>
         <module>flink-gendata</module>
         <module>flink-flume</module>
+        <module>flink_1.9test</module>
     </modules>
 
 
@@ -34,24 +35,12 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-java</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-cep_2.12</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-cep-scala_2.12</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-            <dependency>
-                <!-- This dependency is required to actually execute jobs. It is currently pulled in by
-                    flink-streaming-java, but we explicitly depend on it to safeguard against future changes. -->
-                <groupId>org.apache.flink</groupId>
                 <artifactId>flink-clients_${scala.binary.version}</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-java</artifactId>
                 <version>${flink.version}</version>
             </dependency>
             <dependency>
@@ -61,36 +50,32 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table_2.11</artifactId>
+                <artifactId>flink-scala_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-scala_2.12</artifactId>
+                <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-streaming-scala_2.11</artifactId>
+                <artifactId>flink-table_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-connector-kafka-0.9_2.12</artifactId>
+                <artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-connector-rabbitmq_2.11</artifactId>
+                <artifactId>flink-connector-rabbitmq_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
-
-            <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-filesystem -->
             <dependency>
                 <groupId>org.apache.flink</groupId>
-                <artifactId>flink-connector-filesystem_2.11</artifactId>
+                <artifactId>flink-connector-filesystem_${scala.binary.version}</artifactId>
                 <version>${flink.version}</version>
             </dependency>
 

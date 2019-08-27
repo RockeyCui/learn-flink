@@ -92,19 +92,15 @@ public class GenData {
                 throw new RuntimeException("create file error");
             }
         }
+        // long time = System.currentTimeMillis();
         for (int i = 0; i < Integer.valueOf(times); i++) {
             Thread.sleep(1000);
-
             long time = System.currentTimeMillis();
             Date timestampToDate = DateTimeUtil.getTimestampToDate(time);
+            //Date timestampToDate = DateTimeUtil.getTimestampToDate(time + i * 1000);
             String dateTimeToString = DateTimeUtil.getDateTimeToString(timestampToDate, DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM_SS);
-            if (i % 60 == 0) {
-                System.out.println(dateTimeToString);
-            }
-
             List<String> lines = new ArrayList<>();
             for (String one : phones) {
-
                 if (list1.contains(one)) {
                     if (i == 50) {
                         //在第50秒跑出基站
@@ -119,7 +115,11 @@ public class GenData {
                 }
             }
             Files.write(file.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-            System.out.println(i + " " + dateTimeToString);
+            if (i % 60 == 0) {
+                System.out.println("=====>" + dateTimeToString);
+            } else {
+                System.out.println(dateTimeToString);
+            }
         }
     }
 

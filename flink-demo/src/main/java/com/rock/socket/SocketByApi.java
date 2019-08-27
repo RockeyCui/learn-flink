@@ -1,5 +1,6 @@
 package com.rock.socket;
 
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple;
@@ -27,7 +28,29 @@ public class SocketByApi {
 
         SocketSource source = new SocketSource("localhost", 9000, "\n", "UTF-8");
         TypeInformation[] types = new TypeInformation[]{Types.STRING, Types.STRING, Types.LONG};
-        DataStream<Row> stream = TestUtil.getStream(env, source, types);
+        DataStream<Row> stream = TestUtil.getStream(env, source, new MapFunction<String, Row>() {
+            private static final long serialVersionUID = -2082874828513319275L;
+
+            @Override
+            public Row map(String s) {
+                String[] split = s.split(",");
+                Row row = new Row(split.length);
+                for (int i = 0; i < split.length; i++) {
+                    Object value = split[i];
+                    if (types[i].equals(Types.STRING)) {
+                        value = split[i];
+                    }
+                    if (types[i].equals(Types.LONG)) {
+                        value = Long.valueOf(split[i]);
+                    }
+                    if (types[i].equals(Types.INT)) {
+                        value = Integer.valueOf(split[i]);
+                    }
+                    row.setField(i, value);
+                }
+                return row;
+            }
+        }, types);
 
         SingleOutputStreamOperator<Object> apply = stream.keyBy(0).window(TumblingEventTimeWindows.of(Time.seconds(5))).apply(new WindowFunction<Row, Object, Tuple, TimeWindow>() {
             @Override

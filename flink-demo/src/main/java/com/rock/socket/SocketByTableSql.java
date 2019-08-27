@@ -2,6 +2,7 @@ package com.rock.socket;
 
 import com.rock.util.TimeStampCompare;
 import com.rock.util.UTC2Local;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -28,7 +29,29 @@ public class SocketByTableSql {
         //called 被呼叫人
         //call_time 呼叫时刻
         tableEnv.registerDataStream("call_record",
-                TestUtil.getStream(env, source1, types),
+                TestUtil.getStream(env, source1, new MapFunction<String, Row>() {
+                    private static final long serialVersionUID = 2235131568010035577L;
+
+                    @Override
+                    public Row map(String s) {
+                        String[] split = s.split(",");
+                        Row row = new Row(split.length);
+                        for (int i = 0; i < split.length; i++) {
+                            Object value = split[i];
+                            if (types[i].equals(Types.STRING)) {
+                                value = split[i];
+                            }
+                            if (types[i].equals(Types.LONG)) {
+                                value = Long.valueOf(split[i]);
+                            }
+                            if (types[i].equals(Types.INT)) {
+                                value = Integer.valueOf(split[i]);
+                            }
+                            row.setField(i, value);
+                        }
+                        return row;
+                    }
+                }, types),
                 "phone,called,call_time.rowtime");
 
         //注册 udf 换算时间时区 因为 flink 默认时区为标准时区
