@@ -1,13 +1,11 @@
-package com.rock.async;
+package com.rock.async.cachetest;
 
 import com.github.benmanes.caffeine.cache.AsyncCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
-import javax.xml.transform.Source;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static java.lang.Thread.sleep;
 

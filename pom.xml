@@ -12,14 +12,15 @@
     <modules>
         <module>flink-demo</module>
         <module>flink-gendata</module>
-        <module>flink-flume</module>
-        <module>flink_1.9test</module>
+        <module>own-learn</module>
+        <module>flink-19test</module>
     </modules>
 
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <flink.version>1.7.0</flink.version>
+        <java.version>1.8</java.version>
         <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <scala.binary.version>2.11</scala.binary.version>

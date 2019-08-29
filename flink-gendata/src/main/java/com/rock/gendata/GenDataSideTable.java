@@ -1,13 +1,13 @@
 package com.rock.gendata;
 
-import org.apache.commons.cli.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GenDataSideTable {
     private static Random random = new Random();
@@ -22,7 +22,7 @@ public class GenDataSideTable {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         String userDir = System.getProperty("user.dir");
-        gen(100000, "D:\\userClick_Random_1Y");
+        gen(25000000, "D:\\userClick_Random_2500W");
     }
 
     private static void gen(int times, String filePath) throws IOException {
@@ -33,16 +33,16 @@ public class GenDataSideTable {
                 throw new RuntimeException("create file error");
             }
         }
+        List<String> lines = new ArrayList<>();
         for (int i = 0; i < times; i++) {
-            List<String> lines = new ArrayList<>();
             long time = System.currentTimeMillis();
-            for (int j = 0; j < 1000; j++) {
-                int userId = getUserId();
-                String userClick = "/good/" + i + "/" + j;
-                String line = userId + "," + userClick + "," + time;
-                lines.add(line);
+            int userId = getUserId();
+            String line = userId + "," + "/good/" + i + "," + time;
+            lines.add(line);
+            if (lines.size() == 10000) {
+                Files.write(file.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+                lines.clear();
             }
-            Files.write(file.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
         }
     }
 

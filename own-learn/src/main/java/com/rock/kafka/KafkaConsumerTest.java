@@ -8,21 +8,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 
-public class Test {
+public class KafkaConsumerTest {
     private KafkaConsumer<String, String> consumer;
     private ConsumerRecords<String, String> msgList;
 
     public static void main(String[] args) {
-        //KafkaConsumer<String, String> kafkaConsumer = get("172.16.12.147:9094", "cirrostream_test_phone_filter_window_sink", "test1");
-        // KafkaConsumer<String, String> kafkaConsumer = get("172.16.12.147:9094", "cirrostream_test_phone_filter_topic", "cuishilei");
-        //KafkaConsumer<String, String> kafkaConsumer = get("172.16.44.28:9099", "csl_test_sink", "test1");
         //KafkaConsumer<String, String> kafkaConsumer = get("172.16.44.28:9099", "csl_test_source", "test1");
-        KafkaConsumer<String, String> kafkaConsumer = get("172.16.44.28:9099", "side_table_test", "test1");
+        KafkaConsumer<String, String> kafkaConsumer = get("172.16.12.155:9094", "side_table_test", "test1");
         while (true) {
             ConsumerRecords<String, String> records = kafkaConsumer.poll(1000);
-           /* for (ConsumerRecord<String, String> record : records) {
+            for (ConsumerRecord<String, String> record : records) {
                 System.out.printf("offset = %d, value = %s \n", record.offset(), record.value());
-            }*/
+            }
         }
     }
 
