@@ -1,5 +1,6 @@
 package com.rock.flink19.lookup;
 
+import com.rock.flink19.lookup.tablesource.RedisLookupTableSource;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;

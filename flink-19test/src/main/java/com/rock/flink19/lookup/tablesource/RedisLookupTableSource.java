@@ -1,4 +1,4 @@
-package com.rock.flink19.lookup;
+package com.rock.flink19.lookup.tablesource;
 
 import com.rock.flink19.lookup.function.RedisAsyncTableFunction;
 import com.rock.flink19.lookup.function.RedisTableFunction;
