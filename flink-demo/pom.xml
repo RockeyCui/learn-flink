@@ -12,6 +12,13 @@
     <name>flink-demo</name>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.rockeycui.learn</groupId>
+            <artifactId>flink-util</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- Apache Flink core dependencies start-->
         <dependency>
             <groupId>org.apache.flink</groupId>

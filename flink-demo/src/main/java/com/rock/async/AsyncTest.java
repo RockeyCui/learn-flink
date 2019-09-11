@@ -1,13 +1,12 @@
 package com.rock.async;
 
-import com.rock.async.ehcache.RedisEhcacheAsyncFunction;
+import com.rock.async.map.RedisMapCacheAllFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.typeutils.RowTypeInfo;
 import org.apache.flink.streaming.api.TimeCharacteristic;
-import org.apache.flink.streaming.api.datastream.AsyncDataStream;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -18,7 +17,6 @@ import org.apache.flink.types.Row;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import static org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumerBase.KEY_DISABLE_METRICS;
 
@@ -36,6 +34,7 @@ public class AsyncTest {
             env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
             DataStream<String> source = env.readTextFile("hdfs://172.16.44.28:8020/flink/userClick_Random_2500W", "UTF-8");
+            //DataStream<String> source = env.readTextFile("D:\\userClick_Random_200W", "UTF-8");
 
             TypeInformation[] types = new TypeInformation[]{Types.STRING, Types.STRING, Types.LONG};
             String[] fields = new String[]{"id", "user_click", "time"};
@@ -73,7 +72,7 @@ public class AsyncTest {
             //DataStream<Row> returns = AsyncDataStream.orderedWait(stream, new RedisCaffeineAsyncFunction(), 10000, TimeUnit.MILLISECONDS, 10000).returns(joinTypeInfo);
 
             //异步io拼接字段 ehcache缓存
-            DataStream<Row> returns = AsyncDataStream.orderedWait(stream, new RedisEhcacheAsyncFunction(), 10000, TimeUnit.MILLISECONDS, 10000).returns(joinTypeInfo);
+            //DataStream<Row> returns = AsyncDataStream.orderedWait(stream, new RedisEhcacheAsyncFunction(), 10000, TimeUnit.MILLISECONDS, 10000).returns(joinTypeInfo);
 
             //全缓存拼接字段 Caffeine cache
             //DataStream<Row> returns = stream.flatMap(new RedisCaffeineCacheAllFunction()).returns(joinTypeInfo);
@@ -83,6 +82,8 @@ public class AsyncTest {
 
             //全缓存拼接字段
             //DataStream<Row> returns = stream.flatMap(new RedisEhcacheAllFunction()).returns(joinTypeInfo);
+
+            DataStream<Row> returns = stream.flatMap(new RedisMapCacheAllFunction()).returns(joinTypeInfo);
 
 
             //注册表
@@ -94,9 +95,9 @@ public class AsyncTest {
 
             DataStream<Row> result = tableEnv.toAppendStream(tableQuery, Row.class);
 
-            //result.print().setParallelism(1);
+            result.print().setParallelism(1);
 
-            sendToKafka(result);
+            //sendToKafka(result);
 
             env.execute("AsyncTest");
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package com.rock.watermark;
 
+import com.rock.myutil.DateTimeUtil;
 import com.rock.socket.SocketSource;
-import com.rock.util.DateTimeUtil;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -17,7 +17,6 @@ import org.apache.flink.table.api.java.StreamTableEnvironment;
 
 import javax.annotation.Nullable;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 /**

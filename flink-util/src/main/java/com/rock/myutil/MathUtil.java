@@ -1,4 +1,4 @@
-package com.rock.util;
+package com.rock.myutil;
 
 import java.math.BigDecimal;
 

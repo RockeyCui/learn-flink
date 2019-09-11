@@ -1,6 +1,6 @@
 package com.rock.watermark;
 
-import com.rock.util.MathUtil;
+import com.rock.myutil.MathUtil;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.types.Row;
 import org.slf4j.Logger;
